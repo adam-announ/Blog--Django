@@ -1,0 +1,21 @@
+# Environnements virtuels
+venv/
+myenv/
+*.pyc
+__pycache__/
+
+# Base de données
+db.sqlite3
+
+# Fichiers de configuration locale
+.env
+.idea/
+.vscode/
+
+# Fichiers statiques collectés
+/static/
+/media/
+
+# Fichiers systèmes
+.DS_Store
+Thumbs.db

@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <article class="post">
+        {% if user.is_authenticated %}
+            <aside class="actions">
+                <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
+                    ✎
+                </a>
+            </aside>
+        {% endif %}
+        
+        {% if post.published_date %}
+            <time class="date">
+                {{ post.published_date }}
+            </time>
+        {% endif %}
+        <h2>{{ post.titre }}</h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </article>
+
+    <div class="col-md-8 card mb-4 mt-3">
+        <div class="card-body">
+            <!-- comments -->
+            <h2>{{ commentaires.count }} commentaires</h2>
+            {% for comment in commentaires %}
+                <div class="comments" style="padding: 10px;">
+                    <p class="font-weight-bold">
+                        {{ comment.nom }}
+                        <span class="text-muted font-weight-normal">
+                            {{ comment.created_on }}
+                        </span>
+                    </p>
+                    {{ comment.corps | linebreaks }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="col-md-8 card mb-4 mt-3">
+        <div class="card-body">
+            {% if new_comment %}
+                <div class="alert alert-success" role="alert">
+                    Votre commentaire est en attente d'une modération
+                </div>
+            {% else %}
+                <h3>Laisser un commentaire</h3>
+                <form method="post" style="margin-top: 1.3em;">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
